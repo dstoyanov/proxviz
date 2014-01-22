@@ -52,6 +52,7 @@ BadgeDataReader::BadgeDataReader(string folder_path){
         int tmp;
         *file_streams[0] >> tmp;
         current_time = tmp;
+        file_streams[0]->seekg(0);
 
         closedir(dir);
     }else{
@@ -102,7 +103,6 @@ void BadgeDataReader::readGraph(){
         if(strlen(node_line) == 0)
             continue;
 
-
         adjacent_nodes = this->getAdjacentNodes(string(node_line), time_frame);
 
         if(time_frame == this->current_time){
@@ -111,16 +111,17 @@ void BadgeDataReader::readGraph(){
 
                 g->addEdge(node_id, *itan, false);
 
-                if(!snapshot_created){
-                    snapshot_created = true;
-                    g->setTime(current_time);
-                }
+            }
+
+            if(!snapshot_created){
+                snapshot_created = true;
+                g->setTime(current_time);
             }
 
         }else if(time_frame > this->current_time){
             //rewind the stream to the beginning of the line we just read
 
-            (*file_iterator)->seekg(-strlen(node_line)- 1, (*file_iterator)->cur);
+            (*file_iterator)->seekg(-strlen(node_line)-1, (*file_iterator)->cur);
             exit(1);
         }
 
@@ -137,9 +138,10 @@ void BadgeDataReader::readGraph(){
         snapshots.push_back(g);
         mtx->unlock();
     }
-    else
+    else{
         delete(g);
 
+    }
     this->current_time++;
 
 }
@@ -171,9 +173,8 @@ vector<string> BadgeDataReader::getAdjacentNodes(const string line, time_t &fram
 }
 */
 
-vector<string> BadgeDataReader::getAdjacentNodes(const string line, time_t &frame_number){
+vector<string> BadgeDataReader::getAdjacentNodes(const string line, time_t &t){
     boost::regex regex("\\d+");
-
     boost::sregex_iterator it(line.begin(), line.end(), regex);
     boost::sregex_iterator end;
 
@@ -182,8 +183,7 @@ vector<string> BadgeDataReader::getAdjacentNodes(const string line, time_t &fram
 //    it++;
 //    it++;
 //    it++;
-    frame_number = atoi( it->str().c_str());
-//    cout << "FN: " << frame_number << "   " << line << endl;
+    t = atoi( it->str().c_str());
 
     if(it != end)
         it++;
@@ -192,6 +192,5 @@ vector<string> BadgeDataReader::getAdjacentNodes(const string line, time_t &fram
         result.push_back(it->str());
     }
 
-//    cout << "ADCACENT NODES READ" << endl;
     return result;
 }

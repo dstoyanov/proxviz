@@ -1,5 +1,10 @@
-/*
- * Copyright 2013 Dimo Stoyanov
+/**
+ * @mainpage Proxviz
+ *
+ * A tool for visualization of relative and global positioning data.
+ * It was created as a part of master's project at VU University Amsterdam.
+ *
+ * <i>Copyright 2013 Dimo Stoyanov
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -11,29 +16,5 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
- * limitations under the License.
+ * limitations under the License.</i>
  */
-
-
-#ifndef BADGEDATAREADER_H
-#define BADGEDATAREADER_H
-
-#include "datareader.h"
-
-class BadgeDataReader : public DataReader
-{
-public:
-
-    BadgeDataReader(string folder_path);
-
-    void readGraph();
-
-private:
-//    time_t next_snapshot_time;
-    string filename2id(const char *str);
-
-    vector<string> getAdjacentNodes(const string line, time_t &frame);
-
-};
-
-#endif // BADGEDATAREADER_H

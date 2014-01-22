@@ -252,7 +252,9 @@ void QVertex::drawVertex(QPainter *painter){
     painter->save();
     painter->translate(pos().x() - size, pos().y() - size);
     painter->setBrush(brush);
-    painter->setOpacity(1 - graph_vertex->age / 4.);
+
+//    if(graph_vertex != NULL)
+//        painter->setOpacity(1 - graph_vertex->age / 4.);
     painter->drawEllipse(0, 0, int(2*size), int(2*size));
     painter->restore();
 

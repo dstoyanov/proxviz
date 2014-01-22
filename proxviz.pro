@@ -43,3 +43,6 @@ FORMS    += mainwindow.ui \
     modedialog.ui
 
 LIBS += -L/usr/lib -lboost_graph -lboost_regex -lboost_thread -lboost_system
+
+OTHER_FILES += \
+    mainpage.dox

@@ -51,8 +51,6 @@ public:
 protected:
     string folder_path;
 
-//    queue<Graph *> snapshots;
-
     deque<Graph *> snapshots;
 
     time_t current_time;

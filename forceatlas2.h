@@ -35,12 +35,6 @@ public:
 
     void setDefaultCoefficients(Graph *g);
 
-    //TODO check number of nodes to determine
-//    double repulsion_coefficient;
-
-//    double gravity_coefficient;
-
-//    double attraction_coefficient;
 
     double jitter_tollerance;
 
@@ -52,7 +46,6 @@ public:
 
 
 private:
-//    Graph *g;
 
     long execution_time[100];
     int num_updates;

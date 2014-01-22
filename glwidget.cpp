@@ -48,18 +48,20 @@ GLWidget::GLWidget(QWidget *parent)
     graph_update_timer.setSingleShot(false);
     connect(&graph_update_timer, SIGNAL(timeout()), this, SLOT(updateGraph()));
 
-    fa2 = new ForceAtlas2(width(), height(), false);
+    fa2 = new ForceAtlas2(width(), height(), true);
 
     badge_graph = NULL;
     ubi_graph = NULL;
 
     ubi_radius =  1.5;
 
-    default_reading_location = "../real-time-data/";
+    default_reading_location = "../data/lanes";
 
     src_mode = SRC_BADGE;
 
     ubi_scale = 40;
+
+    image_seq_num = 0;
 }
 
 GLWidget::~GLWidget()
@@ -68,11 +70,11 @@ GLWidget::~GLWidget()
 
 
 
-void GLWidget::initializeGL()
-{
-    glEnable(GL_MULTISAMPLE);
+//void GLWidget::initializeGL()
+//{
+//    glEnable(GL_MULTISAMPLE);
 
-}
+//}
 
 void GLWidget::mousePressEvent(QMouseEvent *event)
 {
@@ -80,7 +82,7 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
 
     QPoint mouse_position = event->pos() * painter_to_scene_transform.inverted();
 
-//    cout << "MOUSE PRESSED" << mouse_position.x() << "  " << mouse_position.y() << endl;
+    //    cout << "MOUSE PRESSED" << mouse_position.x() << "  " << mouse_position.y() << endl;
 
     QImage img = grabFrameBuffer(true);
     img.save("screenshot.png", 0, 100);
@@ -91,7 +93,7 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
 
     for(; vi.first != vi.second; ++vi.first){
         Vertex *v = g->getVertex(vi.first);
-//        QPoint v_point = g->getVertex(vi.first)->qvertex->pos();
+        //        QPoint v_point = g->getVertex(vi.first)->qvertex->pos();
 
         float distance = sqrt((v->x - mouse_position.x()) * (v->x - mouse_position.x()) +
                               (v->y - mouse_position.y()) * (v->y - mouse_position.y()));
@@ -99,12 +101,12 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
         if(distance < v->size)
             v->qvertex->fafa(event);
 
-//        float distance = sqrt((v->x() - mouse_position->x()) * (v->x() - mouse_position->x()) +
-//                              (v->y() - mouse_position->y()) * (v->y() - mouse_position->y()));
+        //        float distance = sqrt((v->x() - mouse_position->x()) * (v->x() - mouse_position->x()) +
+        //                              (v->y() - mouse_position->y()) * (v->y() - mouse_position->y()));
 
-//        if(distance < v->size){
-//            v->mousePressEvent(event);
-//        }
+        //        if(distance < v->size){
+        //            v->mousePressEvent(event);
+        //        }
 
         setFocus();
     }
@@ -113,7 +115,6 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
 
-    std::cout << "MOUSE MOVE \n";
 
     //    dx = event->x() - lastPos.x();
     //    dy = event->y() - lastPos.y();
@@ -151,8 +152,8 @@ void GLWidget::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
 
-//    int dx = viewCenterX + width() / 2;
-//    int dy = viewCenterY + height() / 2;
+    //    int dx = viewCenterX + width() / 2;
+    //    int dy = viewCenterY + height() / 2;
 
     painter.translate(width() / 2 + translateX, height() / 2 + translateY);
 
@@ -187,6 +188,10 @@ void GLWidget::paintEvent(QPaintEvent *event)
             v->qvertex->drawVertex(&painter);
         }
 
+//        char time_str[20];
+//        strftime(time_str, 20, "%Y-%m-%d %H:%M:%S", localtime(graph->getTime()));
+//        painter.drawText(-width() / 2., -height() / 2. + 10, time_str);
+
     } else if(src_mode == SRC_COMBINED && badge_graph != NULL && ubi_graph != NULL){
 
         ei = ubi_graph->getEdgeIterators();
@@ -196,10 +201,10 @@ void GLWidget::paintEvent(QPaintEvent *event)
             Vertex *v2 = ubi_graph->getEdgeTarget(ei.first);
 
             try{
-            badge_graph->checkEdgeExists(ubi_to_badge_map[v1->name], ubi_to_badge_map[v2->name]) ?
-                        painter.setPen(Qt::green) : painter.setPen(Qt::blue);
+                badge_graph->checkEdgeExists(ubi_to_badge_map[v1->name], ubi_to_badge_map[v2->name]) ?
+                            painter.setPen(Qt::green) : painter.setPen(Qt::blue);
 
-            painter.drawLine(ubi_scale * v1->x, ubi_scale * v1->y, ubi_scale * v2->x, ubi_scale * v2->y);
+                painter.drawLine(ubi_scale * v1->x, ubi_scale * v1->y, ubi_scale * v2->x, ubi_scale * v2->y);
 
             }catch(...){
                 cout << "map key exception " << v1->name << "  " << v2->name << endl;
@@ -243,15 +248,30 @@ void GLWidget::paintEvent(QPaintEvent *event)
             v->qvertex->setPos(ubi_scale * v->x, ubi_scale * v->y);
             v->qvertex->drawVertex(&painter);
         }
+
+//        char time_str[20];
+//        strftime(time_str, 20, "%Y-%m-%d %H:%M:%S", localtime(badge_graph->getTime()));
+//        painter.drawText(-width() / 2., -height() / 2., time_str);
+
+
     }
 
     painter_to_scene_transform = painter.transform();
     painter.end();
 
+    stringstream img_name;
+
+    img_name << "images/frame_number" << setw(5) << setfill('0') << image_seq_num << ".png";
 
 
+    QImage img = grabFrameBuffer(false);
 
-//    std::cout << "GRAPH DISPLAYED" << std::endl;
+//    if(!img.colorTable().empty()){
+
+    if(!img.allGray()){
+        img.save(img_name.str().c_str(), 0, 100);
+        image_seq_num++;
+    }
 }
 
 void GLWidget::resizeGL(int width, int height)
@@ -360,37 +380,39 @@ void GLWidget::initDataReaders(){
     tgroup.create_thread(boost::bind(&DataReader::fillGraphBuffer, bdr));
     tgroup.create_thread(boost::bind(&DataReader::fillGraphBuffer, udr));
 
-    sleep(150);
+    //wait until read at least one proximity graph
+    //in case of large graphs the wait time should be increased
+    sleep(10);
 
-//    GraphVizDataReader *gdr = new GraphVizDataReader("/home/dstoyanov/hex.dot");
-//    badge_graph = gdr->getSnapshot();
+
 
     badge_graph = bdr->getSnapshot();
     ubi_graph = udr->getSnapshot(0);
 
-    cout << "UBIGRAPH EDGES: " << ubi_graph->getNumberEdges() << " TIMES: " << "  " << *badge_graph->getTime() << endl;
-    if(*badge_graph->getTime() != *ubi_graph->getTime()){
-        std::cerr << "Ubisense and Badge data streams are not synchronized" << std::endl;
+    //    cout << "UBIGRAPH EDGES: " << ubi_graph->getNumberEdges() << " TIMES: " << "  " << *badge_graph->getTime() << endl;
+//    if(*badge_graph->getTime() != *ubi_graph->getTime()){
+//        std::cerr << "Ubisense and Badge data streams are not synchronized" << std::endl;
 
-        std::cerr << "Ubisense time " << *ubi_graph->getTime()
-                  << " Badge Time " << *badge_graph->getTime() << std::endl;
+//        std::cerr << "Ubisense time " << *ubi_graph->getTime()
+//                  << " Badge Time " << *badge_graph->getTime() << std::endl;
 
-        exit(1);
-    }
+//        exit(1);
+//    }
 
     fa2->initializeAlgorithm(badge_graph);
     fa2->setDefaultCoefficients(badge_graph);
+    fa2->randomize_layout(badge_graph);
 
     std::cout << "FA2 initialized" << std::endl;
 
-    for(int i = 0; i < 20; i++){
-        fa2->randomize_layout(badge_graph);
+//    for(int i = 0; i < 20; i++){
+//        fa2->randomize_layout(badge_graph);
 
-        for(int j = 0; j < 100; j++)
-            fa2->runAlgorithm(badge_graph);
-    }
+//        for(int j = 0; j < 100; j++)
+//            fa2->runAlgorithm(badge_graph);
+//    }
 
-    fa2->print_execution_times("execution_times.txt");
+//    fa2->print_execution_times("execution_times.txt");
 
     emit setSliderMax(bdr->getNumberSnapshots());
 
@@ -413,7 +435,6 @@ void GLWidget::setTimeMode(mode_type mode){
 
 
 void GLWidget::updateLayout(){
-    //TODO REMOVE!
 
     fa2->runAlgorithm(badge_graph);
 
@@ -424,31 +445,23 @@ void GLWidget::updateGraph(){
     Graph *tmp;
     Graph *tmp2;
 
-    std::cout << "UPDATING GRAPH" << std::endl;
-
     ubi_graph = udr->getSnapshot();
 
     tmp2 = bdr->getSnapshot();
-//    badge_graph->prepareNewGraph(tmp2);
 
-//    badge_graph->printGraph();
-//    std::cout << "************************************" << endl;
-//    tmp2->printGraph();
-//    exit(1);
-
+//    badge_graph = tmp2;
+    badge_graph->prepareNewGraph(tmp2);
     badge_graph = tmp2;
 
-    fa2->initializeAlgorithm(badge_graph);
-    fa2->randomize_layout(badge_graph);
+//    fa2->initializeAlgorithm(badge_graph);
+//    fa2->randomize_layout(badge_graph);
 
 
     tmp = (src_mode == SRC_BADGE) ? badge_graph : ubi_graph;
 
-
-
-   emit setNumberEdgesLabel(tmp->getNumberEdges());
-   emit setNumberVerticesLabel(tmp->getNumberVertices());
-   emit setTimeLabel(tmp->getTime());
+    emit setNumberEdgesLabel(tmp->getNumberEdges());
+    emit setNumberVerticesLabel(tmp->getNumberVertices());
+    emit setTimeLabel(tmp->getTime());
 
 
     update();
@@ -495,20 +508,43 @@ void GLWidget::readUbiToBadgeMap(string filename){
 }
 
 void GLWidget::sliderValueChanged(int v){
-    Graph *tmp;
+//    Graph *tmp;
 
-    badge_graph = bdr->getSnapshot(v);
-    fa2->initializeAlgorithm(badge_graph);
-    fa2->randomize_layout(badge_graph);
+//    badge_graph = bdr->getSnapshot(v);
+//    fa2->initializeAlgorithm(badge_graph);
+//    fa2->randomize_layout(badge_graph);
+
+//    ubi_graph = udr->getSnapshot(v);
+
+//    tmp = (src_mode == SRC_BADGE) ? badge_graph : ubi_graph;
+
+//    emit setSliderMax(bdr->getNumberSnapshots());
+//    emit setNumberEdgesLabel(tmp->getNumberEdges());
+//    emit setNumberVerticesLabel(tmp->getNumberVertices());
+//    emit setTimeLabel(tmp->getTime());
+
+    Graph *tmp;
+    Graph *tmp2;
 
     ubi_graph = udr->getSnapshot(v);
+    tmp2 = bdr->getSnapshot(v);
+
+//    badge_graph = tmp2;
+    badge_graph->prepareNewGraph(tmp2);
+    badge_graph = tmp2;
+
+//    fa2->initializeAlgorithm(badge_graph);
+//    fa2->randomize_layout(badge_graph);
+
 
     tmp = (src_mode == SRC_BADGE) ? badge_graph : ubi_graph;
 
-    emit setSliderMax(bdr->getNumberSnapshots());
     emit setNumberEdgesLabel(tmp->getNumberEdges());
     emit setNumberVerticesLabel(tmp->getNumberVertices());
     emit setTimeLabel(tmp->getTime());
+
+
+    update();
 
     setFocus();
     update();

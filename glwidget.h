@@ -60,7 +60,6 @@ public slots:
 
 
 protected:
-    void initializeGL();
     void paintEvent(QPaintEvent *event);
     void resizeGL(int width, int height);
     void mousePressEvent(QMouseEvent *event);
@@ -107,6 +106,8 @@ private:
     std::map<string, string> badge_to_ubi_map;
 
     QTransform painter_to_scene_transform;
+
+    int image_seq_num;
 
 
 private slots:

@@ -35,14 +35,14 @@ ForceAtlas2::ForceAtlas2(int width, int height, bool bhe){
 
     speed = 1.;
 
-    num_threads = 4;
+    num_threads = 16;
 
     num_executions = 0;
 //    execution_time = 0;
-    num_updates = -1;
+//    num_updates = -1;
 
-    for(int i =0; i < 100; i++)
-        execution_time[i] = 0;
+//    for(int i =0; i < 100; i++)
+//        execution_time[i] = 0;
 
     barnes_hut_enabled = bhe;
 
@@ -56,11 +56,11 @@ void ForceAtlas2::randomize_layout(Graph *g){
     for(; iterators.first != iterators.second; ++iterators.first){
         Vertex *v = g->getVertex(iterators.first);
 
-        v->x = (double) this->canvas_width / 2. -
-                (double) this->canvas_width * rand() / (double) RAND_MAX;
+        v->x = 2/3. * ((double) this->canvas_width / 2. -
+                (double) this->canvas_width * rand() / (double) RAND_MAX);
 
-        v->y = (double) this->canvas_height / 2. -
-                (double) this->canvas_height * rand() / (double) RAND_MAX;
+        v->y = 2/3. * ((double) this->canvas_height / 2. -
+                (double) this->canvas_height * rand() / (double) RAND_MAX);
     }
     num_updates++;
 }
@@ -111,9 +111,9 @@ void ForceAtlas2::initializeAlgorithm(Graph *g){
 
 void ForceAtlas2::runAlgorithm(Graph *g){
 
-    timespec begin, end;
+//    timespec begin, end;
 
-    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &begin);
+//    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &begin);
 
     std::pair<VertexIterator, VertexIterator> vi;
     std::pair<VertexIterator, VertexIterator> vj;
@@ -149,8 +149,6 @@ void ForceAtlas2::runAlgorithm(Graph *g){
     //Repulsin and Gravity thread
     int num_vertices = g->getNumberVertices();
     vi = g->getVertexIterators();
-//    boost::thread *threads[num_threads];
-
     boost::thread_group tgroup;
 
     for(int t = num_threads; t > 0; t--){
@@ -211,7 +209,7 @@ void ForceAtlas2::runAlgorithm(Graph *g){
     }
 
 
-    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &end);
+//    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &end);
 
     //    std::cout << "EXECUTION TIME: " << end.tv_nsec - begin.tv_nsec << " nsec" << std::endl;
 //        if(execution_time < 0 || end.tv_nsec < begin.tv_nsec){
@@ -221,22 +219,22 @@ void ForceAtlas2::runAlgorithm(Graph *g){
 
 //    execution_time += pow(10, 9) * (end.tv_sec - begin.tv_sec) + end.tv_nsec - begin.tv_nsec;
 
-    execution_time[num_updates] += pow(10, 9) * (end.tv_sec - begin.tv_sec) + end.tv_nsec - begin.tv_nsec;
+//    execution_time[num_updates] += pow(10, 9) * (end.tv_sec - begin.tv_sec) + end.tv_nsec - begin.tv_nsec;
 
-    num_executions++;
+//    num_executions++;
 
-    if(num_executions == 100){
-//        std::cout << "Total execution time " << execution_time << std::endl;
-//        execution_time = 0;
-        num_executions = 1;
+//    if(num_executions == 100){
+////        std::cout << "Total execution time " << execution_time << std::endl;
+////        execution_time = 0;
+//        num_executions = 1;
 
-        std::cout << "NUMMBER UPDATES " << num_updates << std::endl;
-        //            exit(1);
-    }
-    if(root_region != 0){
-        delete(root_region);
-        root_region = 0;
-    }
+//        std::cout << "NUMMBER UPDATES " << num_updates << std::endl;
+//        //            exit(1);
+//    }
+//    if(root_region != 0){
+//        delete(root_region);
+//        root_region = 0;
+//    }
 }
 
 void ForceAtlas2::linRepulsionAnticollision(Vertex *v1, Vertex *v2,
