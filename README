@@ -1,6 +1,6 @@
 This tool was developed as a part of Dimo Stoyanov's master thesis project at VU University Amsterdam. It is used for visualization of proximity graphs.
 
-Sample input files can be found in the docs folder.
+Sample input files can be found in the data_sets folder.
 
 To compile execute:
 
