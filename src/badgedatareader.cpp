@@ -32,6 +32,7 @@ BadgeDataReader::BadgeDataReader(string folder_path){
     string file_path;
 
 
+    // creates file descriptors to all the nodelogs in the folder
     if((dir = opendir(folder_path.c_str())) != NULL){
         while((ent = readdir(dir)) != NULL){
 
@@ -91,6 +92,7 @@ void BadgeDataReader::readGraph(){
     bool snapshot_created = false;
 
 
+    //reads the graph for the current time
     for(file_iterator = this->file_streams.begin();
         file_iterator != this->file_streams.end(); ++file_iterator){
 
@@ -129,9 +131,6 @@ void BadgeDataReader::readGraph(){
     }
 
     if(snapshot_created){
-        //        snapshots.push(Snapshot(g, this->new_snapshot_frame, node_ids_to_vertex));
-
-//        cout << "SNAPSHOT CREATED" << endl;
 
         mtx->lock();
 
@@ -146,32 +145,6 @@ void BadgeDataReader::readGraph(){
 
 }
 
-/*
-vector<string> BadgeDataReader::getAdjacentNodes(const string line, time_t &frame_number){
-    boost::regex regex("\\d+");
-
-    boost::sregex_iterator it(line.begin(), line.end(), regex);
-    boost::sregex_iterator end;
-
-    vector<string> result;
-
-    it++;
-    it++;
-    it++;
-
-    frame_number = atoi( it->str().c_str());
-
-    it++;
-    it++;
-
-    for(; it != end; ++it){
-        result.push_back(it->str());
-    }
-
-
-    return result;
-}
-*/
 
 vector<string> BadgeDataReader::getAdjacentNodes(const string line, time_t &t){
     boost::regex regex("\\d+");
@@ -180,9 +153,6 @@ vector<string> BadgeDataReader::getAdjacentNodes(const string line, time_t &t){
 
     vector<string> result;
 
-//    it++;
-//    it++;
-//    it++;
     t = atoi( it->str().c_str());
 
     if(it != end)

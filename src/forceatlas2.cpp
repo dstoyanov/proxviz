@@ -38,11 +38,6 @@ ForceAtlas2::ForceAtlas2(int width, int height, bool bhe){
     num_threads = 16;
 
     num_executions = 0;
-//    execution_time = 0;
-//    num_updates = -1;
-
-//    for(int i =0; i < 100; i++)
-//        execution_time[i] = 0;
 
     barnes_hut_enabled = bhe;
 
@@ -155,10 +150,6 @@ void ForceAtlas2::runAlgorithm(Graph *g){
         int from = floor(num_vertices * (t-1)  / num_threads);
         int to = floor(num_vertices * t / num_threads);
 
-//        threads[t] =new boost::thread(boost::bind(&ForceAtlas2::repulsionGravityThread, this, g, from, to));
-//        threads[t]->join();
-
-//        tgroup.add_thread(new boost::thread(boost::bind(&ForceAtlas2::repulsionGravityThread, this, g, from, to)));
         tgroup.create_thread(boost::bind(
                &ForceAtlas2::repulsionGravityThread, this, g, from, to));
     }

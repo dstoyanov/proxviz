@@ -29,13 +29,23 @@ class BadgeDataReader : public DataReader
 {
 public:
 
+    /**
+     * @param folder_path the path were the nodelogs are stored.
+     */
     BadgeDataReader(string folder_path);
 
     void readGraph();
 
 private:
+    /**
+     * Extracts the node id from str which is the file name for the
+     * coresponding nodelog.
+     */
     string filename2id(const char *str);
 
+    /**
+     * Extracts the adjacent nodes from a line in the nodelog
+     */
     vector<string> getAdjacentNodes(const string line, time_t &frame);
 
 };

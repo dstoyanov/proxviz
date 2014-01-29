@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+
+/**
+ *  @file graph.h
+ *  @author Dimo Stoyanov
+ *  @brief Definition of the vertex class.
+ */
 #ifndef QVERTEX_H
 #define QVERTEX_H
 
@@ -58,24 +64,16 @@ public:
     void fafa(QMouseEvent *event);
 
 
-//    QList<QEdge *> getEdges(){ return edgeList;}
 
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
-//    void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
 private:
     QGraphicsScene *parent;
 
     QPointF newPos;
-
-//    QList<QEdge *> edgeList;
-
-//    boost::shared_ptr<QEdge> e;
-
-//    bool selected;
 
     int selected;
 

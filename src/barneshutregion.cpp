@@ -114,80 +114,14 @@ void BarnesHutRegion::buildSubRegions(){
 
         mtx->unlock();
 
-        //        if (topLeftNodes.size() > 0){
-        //            if(topLeftNodes.size() < nodes.size()){
-        //                subregions.push_back(new BarnesHutRegion(topLeftNodes));
-        //            }
-        //        } else{
-        //            for(nit = topLeftNodes.begin(); nit != topLeftNodes.end(); ++nit){
-        //                std::vector<Vertex *> tmp;
-        //                tmp.push_back(*nit);
-        //                subregions.push_back(new BarnesHutRegion(tmp));
-        //            }
-        //        }
-
-        //        if(bottomLeftNodes.size() > 0){
-        //            if(bottomLeftNodes.size() < nodes.size()){
-        //                subregions.push_back(new BarnesHutRegion(bottomLeftNodes));
-        //            }
-        //        }else{
-        //            for(nit = bottomLeftNodes.begin(); nit != bottomLeftNodes.end(); ++nit){
-        //                std::vector<Vertex *> tmp;
-        //                tmp.push_back(*nit);
-        //                subregions.push_back(new BarnesHutRegion(tmp));
-        //            }
-        //        }
-
-        //        if(bottomRightNodes.size() > 0){
-        //            if(bottomRightNodes.size < nodes.size()){
-        //                subregions.push_back(new BarnesHutRegion(bottomRightNodes));
-        //            }
-        //        }else{
-        //            for(nit = bottomRightNodes.begin(); nit != bottomRightNodes.end(); ++nit){
-        //                std::vector<Vertex *> tmp;
-        //                tmp.push_back(*nit);
-        //                subregions.push_back(new BarnesHutRegion(tmp));
-        //            }
-        //        }
-
     }
 }
 
-//void BarnesHutRegion::applyRepulsionForce(Vertex *v, double theta){
-//    if(nodes.size() < 2){
-//        fa2->linRepulsion(nodes[0], v, theta);
-//    }else{
-//        double d = sqrt((v->x - massCenterX) * (v->x - massCenterX) +
-//                        (v->y - massCenterY) * (v->y - massCenterY));
 
-//        if(d * theta > size){
-//            linRepulsion(v);
-//        }else{
-//            std::vector<BarnesHutRegion *>::iterator sit;
-//            for(sit = subregions.begin(); sit != subregions.end(); ++sit){
-//                (*sit)->applyRepulsionForce(v, theta);
-//            }
-//        }
-//    }
-
-//}
 
 double BarnesHutRegion::getMass(){
     return mass;
 }
-
-//void BarnesHutRegion::linRepulsion(Vertex *v){
-//    double xDist = v->x - massCenterX;
-//    double yDist = v->y - massCenterY;
-
-//    double distance = sqrt(xDist * xDist + yDist * yDist);
-//    if(distance > 0){
-//        double factor = fa2->scaling_ratio * v->mass * mass / distance / distance;
-//        v->x += xDist * factor;
-//        v->y += yDist * factor;
-//    }
-
-//}
 
 
 double BarnesHutRegion::getMassCenterX(){

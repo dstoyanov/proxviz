@@ -77,20 +77,6 @@ private:
 
     BarnesHutRegion *root_region;
 
-    //    void linrepulsion(Vertex *v1, Vertex *v2, double coefficient);
-
-    //    void linrepulsion_antiCollision(Vertex *v1, Vertex *v2,
-    //                                    double coefficient);
-
-
-    //    void logAttraction_antiCollision(Vertex *v1, Vertex *v2,
-    //                                     double coefficient, double e);
-
-
-    //    void linrepulsion(Vertex &v1, double coefficient, double g);
-
-    //    void strong_gravity(Vertex *vp, double g, double coefficient);
-
     int num_executions;
     //    long long execution_time;
 

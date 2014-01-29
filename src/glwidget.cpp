@@ -55,7 +55,7 @@ GLWidget::GLWidget(QWidget *parent)
 
     ubi_radius =  1.5;
 
-    default_reading_location = "../datasets/quiz_round2";
+    default_reading_location = "../data/quiz_round2";
 
     src_mode = SRC_BADGE;
 
@@ -70,11 +70,6 @@ GLWidget::~GLWidget()
 
 
 
-//void GLWidget::initializeGL()
-//{
-//    glEnable(GL_MULTISAMPLE);
-
-//}
 
 void GLWidget::mousePressEvent(QMouseEvent *event)
 {
@@ -112,26 +107,7 @@ void GLWidget::mousePressEvent(QMouseEvent *event)
     }
 }
 
-void GLWidget::mouseMoveEvent(QMouseEvent *event)
-{
 
-
-    //    dx = event->x() - lastPos.x();
-    //    dy = event->y() - lastPos.y();
-
-    //    if (event->buttons() & Qt::LeftButton) {
-    //        setXRotation(xRot + 8 * dy);
-    //        setYRotation(yRot + 8 * dx);
-    //    } else if (event->buttons() & Qt::RightButton) {
-    //        setXRotation(xRot + 8 * dy);
-    //        setZRotation(zRot + 8 * dx);
-    //    }
-
-    //    std::cout << "DX " << dx << " DY " << dy << std::endl;
-
-
-    //    lastPos = event->pos();
-}
 
 void GLWidget::paintEvent(QPaintEvent *event)
 {
@@ -278,10 +254,6 @@ void GLWidget::resizeGL(int width, int height)
     setupViewport(width, height);
 }
 
-//void GLWidget::showEvent(QShowEvent *event)
-//{
-//    Q_UNUSED(event);
-//}
 
 
 

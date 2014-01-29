@@ -30,8 +30,12 @@ Sample input for the application can be found in the datasets folder.
 The application expects 3 types of input files:
     - Ubisense trace log file (datasets/quiz_round2/
     ubisense_quiz_round2_enhanced.log is an example for such a file);
+    
     - One nodelog per badge (the format of the nodelogs can be seen
-    in the datasets/quiz_round2/node000016.nodedat file);
+    in the datasets/quiz_round2/node000016.nodedat file). The nodelog's
+    extension should be .nodedat. All files ending with that extension
+    are read and if the format is wrong the application terminates;
+    
     - The mapping between Ubisense and badge ids in a file called 
     dictionary.dat.
 

@@ -14,6 +14,13 @@
  * limitations under the License.
  */
 
+
+/**
+ *  @file qedge.h
+ *  @author Dimo Stoyanov
+ *  @brief Definition of the edge class (e.g. teh color of
+ *  an edge, the vertices it connects, etc.)
+ */
 #ifndef QEDGE_H
 #define QEDGE_H
 
@@ -31,6 +38,10 @@ public:
     void draw(QPainter *painter);
 
 
+    /**
+     * Called when the position of the source or destination veretex
+     * is changed, so the edge can be redrawn accordingly.
+     */
     void adjust();
 
     enum { Type = UserType + 1};
