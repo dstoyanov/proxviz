@@ -22,6 +22,14 @@
 
 #include<boost/thread.hpp>
 
+
+/**
+ *  @file barneshutregion.h
+ *  @author Dimo Stoyanov
+ *  @brief Used for optimization of the Force Atlas 2 algorithm.
+ *  Divides the space into squares and creates a quadtree.
+ */
+
 class BarnesHutRegion
 {
 public:
@@ -30,9 +38,6 @@ public:
     void updateMassAndGeometry();
 
     void buildSubRegions();
-
-//    void applyRepulsionForce(Vertex *v, double theta);
-//    void applyRepulsionForce(Vertex *v);
 
     double getMass();
     double getMassCenterX();

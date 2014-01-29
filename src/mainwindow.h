@@ -33,7 +33,12 @@
 #include "modedialog.h"
 
 
-
+/**
+ *  @file mainwindow.h
+ *  @author Dimo Stoyanov
+ *  @brief The main window for the application. It manages
+ *  the signals send between all the widgets.
+ */
 namespace Ui {
 class MainWindow;
 }
@@ -63,62 +68,6 @@ public slots:
 
 private:
     Ui::MainWindow *ui;
-
-//    QGraphicsScene *scene;
-
-    ModeDialog *mode_dialog;
-    GLWidget *gl_widget;
-
-    mode_type mode;
-
-//    Graph *graph;
-//    Graph *old_graph;
-
-//    double scene_width;
-//    double scene_height;
-
-//    void displayGraph();
-
-
-//    BadgeDataReader *bdr;
-//    UbiDataReader *udr;
-
-//    GraphVizDataReader *gvdr;
-
-//    boost::thread *bdr_thread;
-
-//    ForceAtlas2 *fa;
-
-//    QBasicTimer fa_timer;
-//    QBasicTimer graph_update_timer;
-
-//    bool graph_updated;
-
-//    QList<QEdge *> edges;
-
-//    int current_snapshot;
-
-//    int passed_time;
-
-//    void displayRandom();
-
-
-
-protected:
-//    void mousePressEvent ( QMouseEvent *e);
-////    void mouseReleaseEvent(QMouseEvent *e);
-//    void timerEvent(QTimerEvent *e);
-//    void keyPressEvent( QKeyEvent *e);
-
-//private slots:
-//    void setUbiRange(double r);
-//    void moveSlider(int v);
-//    void spinboxChanged(int v);
-
-
-//    void setMode(mode_type mode);
-
-
 
 };
 

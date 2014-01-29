@@ -32,7 +32,6 @@ namespace bt = boost::posix_time;
 class UbiDataReader : public DataReader
 {
 public:
-//    UbiDataReader() : DataReader(){};
 
     UbiDataReader(string folder_path, double range=1.5);
 

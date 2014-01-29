@@ -1,8 +1,52 @@
-This tool was developed as a part of Dimo Stoyanov's master thesis project at VU University Amsterdam. It is used for visualization of proximity graphs.
+                             proxviz
 
-Sample input files can be found in the data_sets folder.
+This tool was developed as a part of Dimo Stoyanov's master thesis 
+project at VU University Amsterdam. It is used for visualization of
+proximity graphs.
 
-To compile execute:
 
+Documentation
+-------------
+
+The documentation for the project can be compiled by typing
+doxygen proxviz.cfg
+in the src folder.
+
+
+Compilation
+-----------
+
+Type the following commands in the src folder:
 qmake
 make
+
+The executable will be created in the same folder.
+
+
+Application Input
+-----------------
+
+Sample input for the application can be found in the datasets folder.
+The application expects 3 types of input files:
+    - Ubisense trace log file (datasets/quiz_round2/
+    ubisense_quiz_round2_enhanced.log is an example for such a file);
+    - One nodelog per badge (the format of the nodelogs can be seen
+    in the datasets/quiz_round2/node000016.nodedat file);
+    - The mapping between Ubisense and badge ids in a file called 
+    dictionary.dat.
+
+The application will display an error message if any of the 3 types
+of files is missing.
+
+Proxviz can visualize data in real-time as well as prerecorded data streams.
+The default location for real-time data streams is datasets/quiz_round2.
+It is stored in the default_reading_location variable in the GLWidget class.
+The location of prerecorded data streams is chosen in run time.
+
+
+Licensing
+---------
+
+See the LICENSE file. 
+
+

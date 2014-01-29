@@ -14,6 +14,13 @@
  * limitations under the License.
  */
 
+
+/**
+ *  @file modedialog.h
+ *  @author Dimo Stoyanov
+ *  @brief The first dialog that appears on the screen. The choice between
+ *  real time visualization and prerecorded dataset is made here.
+ */
 #ifndef MODEDIALOG_H
 #define MODEDIALOG_H
 

@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+
+/**
+ *  @file forceatlas2.h
+ *  @author Dimo Stoyanov
+ *  @brief Computes the positioning of the nodes.
+ */
 #ifndef FORCEATLAS2_H
 #define FORCEATLAS2_H
 
@@ -27,14 +33,26 @@ class ForceAtlas2
 public:
     ForceAtlas2(int width, int height, bool barnes_hut_enabled = true);
 
+    /**
+     * The main loop of the algorithm. All the forces are computed in it.
+     */
     void runAlgorithm(Graph *g);
 
+    /**
+     * The initialization of the layout. All nodes of graph g are
+     * placed randomly
+     */
     void randomize_layout(Graph *g);
+
 
     void initializeAlgorithm(Graph *g);
 
+    /**
+     * Sets the default values for the variables needed for the algorithm.
+     * They are computed dynamically based on the properties of the
+     * graph (e.g. density, number of nodes, etc.)
+     */
     void setDefaultCoefficients(Graph *g);
-
 
     double jitter_tollerance;
 
@@ -59,22 +77,22 @@ private:
 
     BarnesHutRegion *root_region;
 
-//    void linrepulsion(Vertex *v1, Vertex *v2, double coefficient);
+    //    void linrepulsion(Vertex *v1, Vertex *v2, double coefficient);
 
-//    void linrepulsion_antiCollision(Vertex *v1, Vertex *v2,
-//                                    double coefficient);
-
-
-//    void logAttraction_antiCollision(Vertex *v1, Vertex *v2,
-//                                     double coefficient, double e);
+    //    void linrepulsion_antiCollision(Vertex *v1, Vertex *v2,
+    //                                    double coefficient);
 
 
-//    void linrepulsion(Vertex &v1, double coefficient, double g);
+    //    void logAttraction_antiCollision(Vertex *v1, Vertex *v2,
+    //                                     double coefficient, double e);
 
-//    void strong_gravity(Vertex *vp, double g, double coefficient);
+
+    //    void linrepulsion(Vertex &v1, double coefficient, double g);
+
+    //    void strong_gravity(Vertex *vp, double g, double coefficient);
 
     int num_executions;
-//    long long execution_time;
+    //    long long execution_time;
 
     bool barnes_hut_enabled;
     double barnes_hut_theta;

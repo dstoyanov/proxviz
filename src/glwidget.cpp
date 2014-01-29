@@ -55,7 +55,7 @@ GLWidget::GLWidget(QWidget *parent)
 
     ubi_radius =  1.5;
 
-    default_reading_location = "../data/quiz_round2";
+    default_reading_location = "../datasets/quiz_round2";
 
     src_mode = SRC_BADGE;
 
